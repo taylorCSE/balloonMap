@@ -94,7 +94,7 @@ namespace MapWindow
 
             MySqlCommand CommandAIPDump = Connection.CreateCommand();
 
-            string AIPDump = "SELECT * FROM `aip` WHERE `FlightId` = '" + FlightID + "' ORDER BY `DeviceId`";
+            string AIPDump = "SELECT Lat, LatRef, Lon, LonRef FROM `gps` WHERE `FlightId` = '" + "Test3" + "' LIMIT 1";
 
             CommandAIPDump.CommandText = AIPDump;
 
@@ -103,10 +103,11 @@ namespace MapWindow
 
             while (Reader.Read())
             {
-                for (int i = 0; i < Reader.FieldCount; i++)
-                {
-                    //CSV.Write(Reader.GetValue(i).ToString() + ",");
-                }
+                double lat = double.Parse(Reader.GetValue(0).ToString());
+                double lon = -double.Parse(Reader.GetValue(2).ToString());
+
+                MessageBox.Show(lat.ToString() + ", " + lon.ToString());
+                myMap.AddPushpin(myMap.GetLocation(lat, lon, 245), "FlightId");
             }
 
             Reader.Close();
