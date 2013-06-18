@@ -83,12 +83,6 @@ namespace MapWindow
             myMap.AddPushpin(myMap.GetLocation(40.467222, -85.5, 285), "Upland");
         }
 
-
-        // Looking for event of Close Map being clicked
-        private void buttonCloseMap_Click(object sender, EventArgs e)
-        {
-        }
-
         // What happens when program status is changed.
         private void program_UpdateChanged(object sender, EventArgs e)
         {
@@ -101,30 +95,6 @@ namespace MapWindow
 
         // What happens when program total is changed.
         private void program_TotalChanged(object sender, EventArgs e)
-        {
-        }
-
-        //----------------------------- Ballon select bar ---------------------------------------------------------------
-        private void domainUpDown1_SelectedItemChanged(object sender, EventArgs e)
-        {
-        }
-
-        //----------------------------- Stop Button -----------------------------------------------------------------
-        private void buttonStop_Click(object sender, EventArgs e)
-        {
-        }
-
-        // Allowing for serial port name to be changed in middle of run.
-        private void buttonChange_Click_1(object sender, EventArgs e)
-        {
-        }
-
-        private void inflight_CheckedChanged(object sender, EventArgs e)
-        {
-        }
-
-        // Checking what COM channels are available.
-        private void CheckCOMs_Click(object sender, EventArgs e)
         {
         }
 
