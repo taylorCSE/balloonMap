@@ -59,10 +59,7 @@ namespace MapWindow
 
         string FlightID = string.Empty;                                       // Flight ID.
 
-        bool DBconnection = new bool();                                       // DBconnection On or Off.
         string FlightDescription = string.Empty;                              // Description of the flight.
-
-        TextWriter file;                                                      // Setting up text file to write to.
 
         string selected = string.Empty;                                       // Used in Balloon find and zoom.
 
@@ -121,69 +118,6 @@ namespace MapWindow
         // What happens when program total is changed.
         private void program_TotalChanged(object sender, EventArgs e)
         {
-        }
-
-        private void DBconnect_CheckedChanged(object sender, EventArgs e)
-        {
-            // Database connection string.
-            string Connect = "SERVER=localhost;DATABASE=balloontrack;UID=root;";
-
-            if (DBconnection == true)
-            {
-                try
-                {
-                    // Connecting to database.
-                    Connection.ConnectionString = Connect;
-
-                    // Checking to see if you database connection is wanted.
-                    if (DBconnection)
-                    {
-                        // Opening database connection.
-                        try
-                        {
-                            Connection.Open();
-                            if (((File.Exists("C:\\Documents and Settings\\CCLI\\Desktop\\Flight TXT Files\\" + FlightID + ".txt"))))
-                            {
-                                try
-                                {
-                                    file.Close();
-                                    // Updating program status.
-                                    UpdateStatus = "Text file closed.";
-                                    this.Invoke(new EventHandler(program_UpdateChanged));
-                                }
-                                catch
-                                {
-                                }
-                            }
-                        }
-                        catch
-                        {
-                            // Updating program status.
-                            UpdateStatus = "Please turn on WAMP.";
-                            this.Invoke(new EventHandler(program_UpdateChanged));
-                        }
-                    }
-                }
-                catch
-                {
-                    // Updating program status.
-                    UpdateStatus = "DataBase already open.";
-                    this.Invoke(new EventHandler(program_UpdateChanged));
-                }
-            }
-            else
-            {
-                Connection.Close();
-
-                if ((!(File.Exists("C:\\Documents and Settings\\CCLI\\Desktop\\Flight TXT Files\\" + FlightID + ".txt"))))
-                {
-                    file = new StreamWriter("C:\\Documents and Settings\\CCLI\\Desktop\\Flight TXT Files\\" + FlightID + ".txt");
-                    file.WriteLine(FlightID);
-                    // Updating program status.
-                    UpdateStatus = "Text file is opened.";
-                    this.Invoke(new EventHandler(program_UpdateChanged));
-                }
-            }
         }
     }
 }
