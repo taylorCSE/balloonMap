@@ -1,23 +1,15 @@
-﻿/* 
- * Author: Ryan Mann
- * This code takes in data from a serial port an maps it onto a stand alone MapPoint map.
- * The map has a start run button, close map button, zoom bar, a Ballon locator box, database, and UI
- * 
- * Still in progress:
-*/
-using System;                       // Needed for basic system commands.
-using System.IO;                    // Needed to access input and output streams.
-using System.Collections.Generic;   // Needed to access generic collections.
-using System.ComponentModel;        // Needed to edit component Model.
-using System.Data;                  // Needed to control data types.
-using System.Data.SqlClient;        // Needed to run SQL code.
-using System.Drawing;               // Needed to draw lines on map.
-using System.Linq;                  // Used for linking.
-using System.Text;                  // Used to interact with text.
-using System.Windows.Forms;         // Needed to make windows form.
-using MapPoint;                     // Needed to use MapPoint.
-using MySql.Data.MySqlClient;       // Needed to use MYSQL.
-using System.Globalization;         // Needed for converting HEX.
+﻿using System;
+using System.IO;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using MapPoint;
+using MySql.Data.MySqlClient;
+using System.Globalization;
 
 namespace MapWindow
 {
@@ -48,14 +40,11 @@ namespace MapWindow
             Reader.Close();
         }
 
-        // Starting up Form1.
         public Form1() {
-            // Initializing Form1.
             InitializeComponent();
 
             Connection.ConnectionString = "SERVER=localhost;DATABASE=balloontrack;UID=root;";
 
-            // Opening database connection.
             try
             {
                 Connection.Open();
@@ -65,9 +54,9 @@ namespace MapWindow
                 // Handle connection error
             }
 
-            myMap = axMappointControl1.NewMap(MapPoint.GeoMapRegion.geoMapNorthAmerica);  // Getting Map.
-            MapPoint.MapFeatures features = myMap.MapFeatures;                    // Getting Map Features.
-            axMappointControl1.Units = GeoUnits.geoKm;                            // Setting Units of map to Kilometers.
+            myMap = axMappointControl1.NewMap(MapPoint.GeoMapRegion.geoMapNorthAmerica);
+            MapPoint.MapFeatures features = myMap.MapFeatures;
+            axMappointControl1.Units = GeoUnits.geoKm;
 
             myTimer.Tick += new EventHandler(UpdatePins);
             myTimer.Interval = 5000;
