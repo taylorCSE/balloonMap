@@ -55,7 +55,6 @@ namespace MapWindow
             }
 
             myMap = axMappointControl1.NewMap(MapPoint.GeoMapRegion.geoMapNorthAmerica);
-            MapPoint.MapFeatures features = myMap.MapFeatures;
             axMappointControl1.Units = GeoUnits.geoKm;
 
             myTimer.Tick += new EventHandler(UpdatePins);
