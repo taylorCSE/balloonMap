@@ -94,20 +94,18 @@ namespace MapWindow
 
             MySqlCommand CommandAIPDump = Connection.CreateCommand();
 
-            string AIPDump = "SELECT Lat, LatRef, Lon, LonRef FROM `gps` WHERE `FlightId` = '" + "Test3" + "' LIMIT 1";
-
-            CommandAIPDump.CommandText = AIPDump;
+            CommandAIPDump.CommandText = "SELECT FlightId, max(Timestamp), Lat, LatRef, Lon, LonRef FROM `gps` where Lat < 90 and Lon < 180 group by FlightId";
 
             MySqlDataReader Reader;
             Reader = CommandAIPDump.ExecuteReader();
 
             while (Reader.Read())
             {
-                double lat = double.Parse(Reader.GetValue(0).ToString());
-                double lon = -double.Parse(Reader.GetValue(2).ToString());
+                string id = Reader.GetValue(0).ToString();
+                double lat = double.Parse(Reader.GetValue(2).ToString());
+                double lon = -double.Parse(Reader.GetValue(4).ToString());
 
-                MessageBox.Show(lat.ToString() + ", " + lon.ToString());
-                myMap.AddPushpin(myMap.GetLocation(lat, lon, 245), "FlightId");
+                myMap.AddPushpin(myMap.GetLocation(lat, lon, 245), id);
             }
 
             Reader.Close();
