@@ -1,15 +1,7 @@
 ﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using MapPoint;
 using MySql.Data.MySqlClient;
-using System.Globalization;
 
 namespace MapWindow
 {
