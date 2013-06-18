@@ -90,9 +90,7 @@ namespace MapWindow
             MapPoint.MapFeatures features = myMap.MapFeatures;                    // Getting Map Features.
             axMappointControl1.Units = GeoUnits.geoKm;                            // Setting Units of map to Kilometers.
 
-            myMap.AddPushpin(myMap.GetLocation(40.467222, -85.5, 285), "Upland");
-
-            MySqlCommand CommandAIPDump = Connection.CreateCommand();
+                        MySqlCommand CommandAIPDump = Connection.CreateCommand();
 
             CommandAIPDump.CommandText = "SELECT DeviceId, max(Timestamp), Lat, LatRef, Lon, LonRef FROM `gps` where Lat < 90 and Lon < 180 and FlightId = 'taylor05' group by DeviceId";
 
