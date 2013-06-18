@@ -24,6 +24,7 @@ namespace MapWindow
     public partial class Form1 : Form
     {
         static System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
+        MapPoint.Map myMap;
 
         //String Distance;                                                      // Distance string from MapPoint pin.
         String Direction = string.Empty;                                      // Direction string from GPS Heading.
@@ -70,33 +71,7 @@ namespace MapWindow
         MapPoint.Shape[] shape = new Shape[10000];                            // Used to draw lines for the balloons.
 
         // This is the method to run when the timer is raised. 
-        private static void UpdatePins(Object myObject, EventArgs myEventArgs) {
-            MessageBox.Show("timer fired");
-        }
-
-        // Starting up Form1.
-        public Form1() {
-            // Initializing Form1.
-            InitializeComponent();
-
-            myTimer.Tick += new EventHandler(UpdatePins);
-            myTimer.Interval = 5000;
-            myTimer.Start();
-
-            Connection.ConnectionString = "SERVER=localhost;DATABASE=balloontrack;UID=root;";
-
-            // Opening database connection.
-            try {
-                Connection.Open();
-            }
-            catch {
-                // Handle connection error
-            }
-
-            MapPoint.Map myMap = axMappointControl1.NewMap(MapPoint.GeoMapRegion.geoMapNorthAmerica);  // Getting Map.
-            MapPoint.MapFeatures features = myMap.MapFeatures;                    // Getting Map Features.
-            axMappointControl1.Units = GeoUnits.geoKm;                            // Setting Units of map to Kilometers.
-
+        private void UpdatePins(Object myObject, EventArgs myEventArgs) {
             MySqlCommand GPSCommand = Connection.CreateCommand();
 
             GPSCommand.CommandText = "SELECT DeviceId, max(Timestamp), Lat, LatRef, Lon, LonRef FROM `gps` where Lat < 90 and Lon < 180 and FlightId = 'taylor05' group by DeviceId";
@@ -113,6 +88,32 @@ namespace MapWindow
             }
 
             Reader.Close();
+        }
+
+        // Starting up Form1.
+        public Form1() {
+            // Initializing Form1.
+            InitializeComponent();
+
+            Connection.ConnectionString = "SERVER=localhost;DATABASE=balloontrack;UID=root;";
+
+            // Opening database connection.
+            try
+            {
+                Connection.Open();
+            }
+            catch
+            {
+                // Handle connection error
+            }
+
+            myMap = axMappointControl1.NewMap(MapPoint.GeoMapRegion.geoMapNorthAmerica);  // Getting Map.
+            MapPoint.MapFeatures features = myMap.MapFeatures;                    // Getting Map Features.
+            axMappointControl1.Units = GeoUnits.geoKm;                            // Setting Units of map to Kilometers.
+
+            myTimer.Tick += new EventHandler(UpdatePins);
+            myTimer.Interval = 5000;
+            myTimer.Start();
         }
 
         // What happens when program status is changed.
