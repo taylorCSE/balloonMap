@@ -26,49 +26,7 @@ namespace MapWindow
         static System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
         MapPoint.Map myMap;
 
-        //String Distance;                                                      // Distance string from MapPoint pin.
-        String Direction = string.Empty;                                      // Direction string from GPS Heading.
-        MapPoint.Location[] CurrentLoc = new Location[10000];                 // Current Location.
-        MapPoint.Location[] LastLoc = new Location[10000];                    // Last Location.
-        //LastLoc = myMap.GetLocation(41, (-86), 50);                           // Generic Starting Position in Indiana.
-        //Start = LastLoc;                                                      // Marking generic starting location.
-        String[] Balloons = new string[10000];                                // Keeps balloon ID's.
-
-        //------------------------------------------------Variables used in Parsing section-----------------------------------------------------
-        byte[] input = new byte[46];                                          // Input from Serial Port.
-        String[] inputString = new String[46];                                // Input turned into Hex format.
-        String[] GPSstring = new String[7];                                   // GPS input split.
-        String GPSstring2 = String.Empty;                                     // Input from GPS as characters.
-        string[] Lat = new string[2];                                         // String to used in Latitude degrees calculation.
-        string[] Lon = new string[2];                                         // String to used in Longitude degrees calculation.
-
-        //------------------------------------------------Variables used to get data from Parsing to Mapping------------------------------------
-        string Status = string.Empty;                                         // Status input from serial port.
-        string LatR = string.Empty;                                           // Latitude value from serial port.
-        string LonR = string.Empty;                                           // Longitude value from serial port.
-        string[] CRC = new string[2];                                         // CRC value from serial port.
-        string ID = string.Empty;                                             // ID value from serial port.
-        string COM = string.Empty;                                            // Command from serial port.
-        string DP = string.Empty;                                             // Digital Payload from serial port.
-        string[] APconvert = new string[36];                                  // Analog Payload from serial port.
-        decimal[] AP = new decimal[18];                                       // Analog Payload converted.
-
-        private MySqlDataAdapter data = new MySqlDataAdapter();               // Data value used in checking for duplicate Flight IDs.
-
-        string current = string.Empty;                                        // Used when changeing Port names.
-        string UpdateStatus = string.Empty;                                   // Program Status.
-
-        string Error = string.Empty;                                          // Program Status.
-
-        string FlightID = string.Empty;                                       // Flight ID.
-
-        string FlightDescription = string.Empty;                              // Description of the flight.
-
-        string selected = string.Empty;                                       // Used in Balloon find and zoom.
-
         MySqlConnection Connection = new MySqlConnection();                   // Setting up Database Connection.
-
-        MapPoint.Shape[] shape = new Shape[10000];                            // Used to draw lines for the balloons.
 
         // This is the method to run when the timer is raised. 
         private void UpdatePins(Object myObject, EventArgs myEventArgs) {
