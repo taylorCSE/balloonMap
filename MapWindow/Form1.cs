@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using MapPoint;
 using MySql.Data.MySqlClient;
@@ -9,7 +11,7 @@ namespace MapWindow
     {
         static System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
         MapPoint.Map myMap;
-
+        Dictionary<string, Pushpin> pins = new Dictionary<string, Pushpin>();
         MySqlConnection Connection = new MySqlConnection();
 
         public Form1() {
@@ -48,7 +50,13 @@ namespace MapWindow
                 double lat = double.Parse(Reader.GetValue(2).ToString());
                 double lon = -double.Parse(Reader.GetValue(4).ToString());
 
-                myMap.AddPushpin(myMap.GetLocation(lat, lon, 245), id);
+                Location location = myMap.GetLocation(lat, lon, 245);
+
+                if (pins.ContainsKey(id)) {
+                    pins[id].Location = location;
+                } else {
+                    pins.Add(id, myMap.AddPushpin(location, id));
+                }
             }
 
             Reader.Close();
