@@ -12,26 +12,6 @@ namespace MapWindow
 
         MySqlConnection Connection = new MySqlConnection();
 
-        // This is the method to run when the timer is raised. 
-        private void UpdatePins(Object myObject, EventArgs myEventArgs) {
-            MySqlCommand GPSCommand = Connection.CreateCommand();
-
-            GPSCommand.CommandText = "SELECT DeviceId, max(Timestamp), Lat, LatRef, Lon, LonRef FROM `gps` where Lat < 90 and Lon < 180 and FlightId = 'taylor05' group by DeviceId";
-
-            MySqlDataReader Reader = GPSCommand.ExecuteReader();
-
-            while (Reader.Read())
-            {
-                string id = Reader.GetValue(0).ToString();
-                double lat = double.Parse(Reader.GetValue(2).ToString());
-                double lon = -double.Parse(Reader.GetValue(4).ToString());
-
-                myMap.AddPushpin(myMap.GetLocation(lat, lon, 245), id);
-            }
-
-            Reader.Close();
-        }
-
         public Form1() {
             InitializeComponent();
 
@@ -52,6 +32,26 @@ namespace MapWindow
             myTimer.Tick += new EventHandler(UpdatePins);
             myTimer.Interval = 5000;
             myTimer.Start();
+        }
+
+        private void UpdatePins(Object myObject, EventArgs myEventArgs)
+        {
+            MySqlCommand GPSCommand = Connection.CreateCommand();
+
+            GPSCommand.CommandText = "SELECT DeviceId, max(Timestamp), Lat, LatRef, Lon, LonRef FROM `gps` where Lat < 90 and Lon < 180 and FlightId = 'taylor05' group by DeviceId";
+
+            MySqlDataReader Reader = GPSCommand.ExecuteReader();
+
+            while (Reader.Read())
+            {
+                string id = Reader.GetValue(0).ToString();
+                double lat = double.Parse(Reader.GetValue(2).ToString());
+                double lon = -double.Parse(Reader.GetValue(4).ToString());
+
+                myMap.AddPushpin(myMap.GetLocation(lat, lon, 245), id);
+            }
+
+            Reader.Close();
         }
     }
 }
