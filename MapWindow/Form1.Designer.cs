@@ -51,7 +51,7 @@
             this.ClientSize = new System.Drawing.Size(994, 394);
             this.Controls.Add(this.axMappointControl1);
             this.Name = "Form1";
-            this.Text = "Mini2.5";
+            this.Text = "BalloonMap";
             ((System.ComponentModel.ISupportInitialize)(this.axMappointControl1)).EndInit();
             this.ResumeLayout(false);
 
