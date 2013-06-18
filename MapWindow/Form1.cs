@@ -23,6 +23,8 @@ namespace MapWindow
 {
     public partial class Form1 : Form
     {
+        static System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
+
         //String Distance;                                                      // Distance string from MapPoint pin.
         String Direction = string.Empty;                                      // Direction string from GPS Heading.
         MapPoint.Location[] CurrentLoc = new Location[10000];                 // Current Location.
@@ -67,11 +69,19 @@ namespace MapWindow
 
         MapPoint.Shape[] shape = new Shape[10000];                            // Used to draw lines for the balloons.
 
+        // This is the method to run when the timer is raised. 
+        private static void UpdatePins(Object myObject, EventArgs myEventArgs) {
+            MessageBox.Show("timer fired");
+        }
+
         // Starting up Form1.
-        public Form1()
-        {
+        public Form1() {
             // Initializing Form1.
             InitializeComponent();
+
+            myTimer.Tick += new EventHandler(UpdatePins);
+            myTimer.Interval = 5000;
+            myTimer.Start();
 
             Connection.ConnectionString = "SERVER=localhost;DATABASE=balloontrack;UID=root;";
 
