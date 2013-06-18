@@ -79,6 +79,8 @@ namespace MapWindow
             MapPoint.Map myMap = axMappointControl1.NewMap(MapPoint.GeoMapRegion.geoMapNorthAmerica);  // Getting Map.
             MapPoint.MapFeatures features = myMap.MapFeatures;                    // Getting Map Features.
             axMappointControl1.Units = GeoUnits.geoKm;                            // Setting Units of map to Kilometers.
+
+            myMap.AddPushpin(myMap.GetLocation(40.467222, -85.5, 285), "Upland");
         }
 
 

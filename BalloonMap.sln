@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1.0", "MapWindow\1.0.csproj", "{FDB52679-A868-4578-B206-B8A3CE71432B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalloonMap", "MapWindow\BalloonMap.csproj", "{FDB52679-A868-4578-B206-B8A3CE71432B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
