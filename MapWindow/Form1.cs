@@ -76,11 +76,40 @@ namespace MapWindow
             // Initializing Form1.
             InitializeComponent();
 
+            Connection.ConnectionString = "SERVER=localhost;DATABASE=balloontrack;UID=root;";
+
+            // Opening database connection.
+            try {
+                Connection.Open();
+            }
+            catch {
+                // Handle connection error
+            }
+
             MapPoint.Map myMap = axMappointControl1.NewMap(MapPoint.GeoMapRegion.geoMapNorthAmerica);  // Getting Map.
             MapPoint.MapFeatures features = myMap.MapFeatures;                    // Getting Map Features.
             axMappointControl1.Units = GeoUnits.geoKm;                            // Setting Units of map to Kilometers.
 
             myMap.AddPushpin(myMap.GetLocation(40.467222, -85.5, 285), "Upland");
+
+            MySqlCommand CommandAIPDump = Connection.CreateCommand();
+
+            string AIPDump = "SELECT * FROM `aip` WHERE `FlightId` = '" + FlightID + "' ORDER BY `DeviceId`";
+
+            CommandAIPDump.CommandText = AIPDump;
+
+            MySqlDataReader Reader;
+            Reader = CommandAIPDump.ExecuteReader();
+
+            while (Reader.Read())
+            {
+                for (int i = 0; i < Reader.FieldCount; i++)
+                {
+                    //CSV.Write(Reader.GetValue(i).ToString() + ",");
+                }
+            }
+
+            Reader.Close();
         }
 
         // What happens when program status is changed.
