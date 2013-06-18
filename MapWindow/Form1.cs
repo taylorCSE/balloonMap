@@ -18,7 +18,7 @@ namespace MapWindow
         static System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
         MapPoint.Map myMap;
 
-        MySqlConnection Connection = new MySqlConnection();                   // Setting up Database Connection.
+        MySqlConnection Connection = new MySqlConnection();
 
         // This is the method to run when the timer is raised. 
         private void UpdatePins(Object myObject, EventArgs myEventArgs) {
@@ -60,21 +60,6 @@ namespace MapWindow
             myTimer.Tick += new EventHandler(UpdatePins);
             myTimer.Interval = 5000;
             myTimer.Start();
-        }
-
-        // What happens when program status is changed.
-        private void program_UpdateChanged(object sender, EventArgs e)
-        {
-        }
-
-        // What happens when program error is changed.
-        private void program_ErrorChanged(object sender, EventArgs e)
-        {
-        }
-
-        // What happens when program total is changed.
-        private void program_TotalChanged(object sender, EventArgs e)
-        {
         }
     }
 }
