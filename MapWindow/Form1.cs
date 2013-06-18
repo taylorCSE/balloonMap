@@ -94,7 +94,7 @@ namespace MapWindow
 
             MySqlCommand CommandAIPDump = Connection.CreateCommand();
 
-            CommandAIPDump.CommandText = "SELECT FlightId, max(Timestamp), Lat, LatRef, Lon, LonRef FROM `gps` where Lat < 90 and Lon < 180 group by FlightId";
+            CommandAIPDump.CommandText = "SELECT DeviceId, max(Timestamp), Lat, LatRef, Lon, LonRef FROM `gps` where Lat < 90 and Lon < 180 and FlightId = 'taylor05' group by DeviceId";
 
             MySqlDataReader Reader;
             Reader = CommandAIPDump.ExecuteReader();
