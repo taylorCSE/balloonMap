@@ -69,7 +69,17 @@ namespace MapWindow
             {
                 string id = Reader.GetValue(0).ToString();
                 double lat = double.Parse(Reader.GetValue(2).ToString());
-                double lon = -double.Parse(Reader.GetValue(4).ToString());
+                string latRef = Reader.GetValue(3).ToString();
+                double lon = double.Parse(Reader.GetValue(4).ToString());
+                string lonRef = Reader.GetValue(5).ToString();
+
+                if (latRef == "S") {
+                    lat *= -1;
+                }
+
+                if (lonRef == "W") {
+                    lon *= -1;
+                }
 
                 Location location = myMap.GetLocation(lat, lon, 245);
 
