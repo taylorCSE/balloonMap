@@ -13,6 +13,7 @@ namespace MapWindow
         MapPoint.Map myMap;
         Dictionary<string, Pushpin> pins = new Dictionary<string, Pushpin>();
         MySqlConnection Connection = new MySqlConnection();
+        string flightId;
 
         public Form1() {
             InitializeComponent();
