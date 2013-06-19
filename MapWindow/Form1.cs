@@ -62,5 +62,10 @@ namespace MapWindow
 
             Reader.Close();
         }
+
+        private void FlightComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

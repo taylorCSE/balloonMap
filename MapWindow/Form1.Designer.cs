@@ -52,6 +52,7 @@
             this.FlightComboBox.Name = "FlightComboBox";
             this.FlightComboBox.Size = new System.Drawing.Size(121, 21);
             this.FlightComboBox.TabIndex = 1;
+            this.FlightComboBox.SelectedIndexChanged += new System.EventHandler(this.FlightComboBox_SelectedIndexChanged);
             // 
             // Form1
             // 
