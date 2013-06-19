@@ -32,6 +32,8 @@ namespace MapWindow
             myMap = axMappointControl1.NewMap(MapPoint.GeoMapRegion.geoMapNorthAmerica);
             axMappointControl1.Units = GeoUnits.geoKm;
 
+            FlightComboBox.Items.Add("taylor05");
+
             myTimer.Tick += new EventHandler(UpdatePins);
             myTimer.Interval = 5000;
             myTimer.Start();
@@ -41,7 +43,7 @@ namespace MapWindow
         {
             MySqlCommand GPSCommand = Connection.CreateCommand();
 
-            GPSCommand.CommandText = "SELECT DeviceId, max(Timestamp), Lat, LatRef, Lon, LonRef FROM `gps` where Lat < 90 and Lon < 180 and FlightId = 'taylor05' group by DeviceId";
+            GPSCommand.CommandText = "SELECT DeviceId, max(Timestamp), Lat, LatRef, Lon, LonRef FROM `gps` where Lat < 90 and Lon < 180 and FlightId = '" + flightId + "' group by DeviceId";
 
             MySqlDataReader Reader = GPSCommand.ExecuteReader();
 
@@ -63,9 +65,8 @@ namespace MapWindow
             Reader.Close();
         }
 
-        private void FlightComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+        private void FlightComboBox_SelectedIndexChanged(object sender, EventArgs e) {
+            flightId = FlightComboBox.SelectedItem.ToString();
         }
     }
 }
