@@ -32,11 +32,25 @@ namespace MapWindow
             myMap = axMappointControl1.NewMap(MapPoint.GeoMapRegion.geoMapNorthAmerica);
             axMappointControl1.Units = GeoUnits.geoKm;
 
-            FlightComboBox.Items.Add("taylor05");
+            FillFlightSelector();
 
             myTimer.Tick += new EventHandler(UpdatePins);
             myTimer.Interval = 5000;
             myTimer.Start();
+        }
+
+        private void FillFlightSelector() {
+            MySqlCommand GPSCommand = Connection.CreateCommand();
+
+            GPSCommand.CommandText = "SELECT FlightId FROM gps group by FlightId";
+
+            MySqlDataReader Reader = GPSCommand.ExecuteReader();
+
+            while (Reader.Read()) {
+                FlightComboBox.Items.Add(Reader.GetValue(0).ToString());
+            }
+
+            Reader.Close();
         }
 
         private void UpdatePins(Object myObject, EventArgs myEventArgs)
