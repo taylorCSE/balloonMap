@@ -27,6 +27,7 @@ namespace MapWindow
             catch
             {
                 MessageBox.Show("Database Connection Failed");
+                Environment.Exit(0);
             }
 
             myMap = axMappointControl1.NewMap(MapPoint.GeoMapRegion.geoMapNorthAmerica);
