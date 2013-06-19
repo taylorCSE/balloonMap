@@ -81,6 +81,12 @@ namespace MapWindow
 
         private void FlightComboBox_SelectedIndexChanged(object sender, EventArgs e) {
             flightId = FlightComboBox.SelectedItem.ToString();
+
+            foreach (var pin in pins) {
+                pins[pin.Key].Delete();
+            }
+
+            pins.Clear();
         }
     }
 }
