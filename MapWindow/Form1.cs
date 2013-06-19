@@ -34,7 +34,7 @@ namespace MapWindow
 
             FillFlightSelector();
 
-            myTimer.Tick += new EventHandler(UpdatePins);
+            myTimer.Tick += new EventHandler(TimerEvent);
             myTimer.Interval = 5000;
             myTimer.Start();
         }
@@ -53,8 +53,11 @@ namespace MapWindow
             Reader.Close();
         }
 
-        private void UpdatePins(Object myObject, EventArgs myEventArgs)
-        {
+        private void TimerEvent(Object myObject, EventArgs myEventArgs) {
+            UpdatePins();
+        }
+        
+        private void UpdatePins() {
             MySqlCommand GPSCommand = Connection.CreateCommand();
 
             GPSCommand.CommandText = "SELECT DeviceId, max(Timestamp), Lat, LatRef, Lon, LonRef FROM `gps` where Lat < 90 and Lon < 180 and FlightId = '" + flightId + "' group by DeviceId";
@@ -87,6 +90,8 @@ namespace MapWindow
             }
 
             pins.Clear();
+
+            UpdatePins();
         }
     }
 }
