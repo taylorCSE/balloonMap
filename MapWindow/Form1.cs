@@ -32,6 +32,7 @@ namespace MapWindow
 
             myMap = axMappointControl1.NewMap(MapPoint.GeoMapRegion.geoMapNorthAmerica);
             axMappointControl1.Units = GeoUnits.geoKm;
+            axMappointControl1.ActiveMap.Saved = true;
 
             FillFlightSelector();
 
@@ -91,6 +92,8 @@ namespace MapWindow
             }
 
             Reader.Close();
+
+            axMappointControl1.ActiveMap.Saved = true;
         }
 
         private void FlightComboBox_SelectedIndexChanged(object sender, EventArgs e) {
