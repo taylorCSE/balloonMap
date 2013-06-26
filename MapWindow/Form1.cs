@@ -12,6 +12,7 @@ namespace MapWindow
         static System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
         MapPoint.Map myMap;
         Dictionary<string, Pushpin> pins = new Dictionary<string, Pushpin>();
+        Dictionary<string, MapPoint.Shape> paths = new Dictionary<string, MapPoint.Shape>();
         MySqlConnection Connection = new MySqlConnection();
         string flightId;
         List<string> devices;
@@ -80,10 +81,6 @@ namespace MapWindow
         private void UpdatePaths() {
             UpdateDevices();
 
-            foreach (MapPoint.Shape i in myMap.Shapes) {
-                i.Delete();
-            }
-
             foreach (string deviceId in devices) {
                 MySqlCommand GPSCommand = Connection.CreateCommand();
 
@@ -105,8 +102,13 @@ namespace MapWindow
                                                  -double.Parse(Reader.GetValue(2).ToString()), 0));
                 };
 
+                if (paths.ContainsKey(deviceId)) {
+                    paths[deviceId].Delete();
+                    paths.Remove(deviceId);
+                }
+
                 if (locations.Count > 1) {
-                    myMap.Shapes.AddPolyline(locations.ToArray());
+                    paths.Add(deviceId, myMap.Shapes.AddPolyline(locations.ToArray()));
                 }
 
                 Reader.Close();
@@ -175,6 +177,11 @@ namespace MapWindow
         }
 
         private void FlightComboBox_SelectedIndexChanged(object sender, EventArgs e) {
+            foreach (MapPoint.Shape i in myMap.Shapes) {
+                i.Delete();
+            }
+            paths.Clear();
+
             flightId = FlightComboBox.SelectedItem.ToString();
 
             foreach (var pin in pins) {
