@@ -80,16 +80,36 @@ namespace MapWindow
         private void UpdatePaths() {
             UpdateDevices();
 
-            foreach (string deviceId in devices) {
-                Location[] locations = new Location[2];
-                locations[0] = myMap.GetLocation(40, -84, 245);
-                locations[1] = myMap.GetLocation(40, -86, 245);
+            foreach (MapPoint.Shape i in myMap.Shapes) {
+                i.Delete();
+            }
 
-                foreach (MapPoint.Shape i in myMap.Shapes)
-                {
-                    i.Delete();
+            foreach (string deviceId in devices) {
+                MySqlCommand GPSCommand = Connection.CreateCommand();
+
+                GPSCommand.CommandText = @"SELECT Lat, LatRef, Lon, LonRef, PacketId
+                                         FROM gps
+                                         WHERE
+                                             Lat < 90 and Lon < 180 and 
+                                             PacketId % 50 = 0 and
+                                             DeviceId = '" + deviceId + @"' and 
+                                             FlightId = '" + flightId + @"'
+                                         ORDER BY Timestamp ASC";
+
+                MySqlDataReader Reader = GPSCommand.ExecuteReader();
+
+                List<Location> locations = new List<Location>();
+
+                while (Reader.Read()) {
+                    locations.Add(myMap.GetLocation(double.Parse(Reader.GetValue(0).ToString()),
+                                                 -double.Parse(Reader.GetValue(2).ToString()), 0));
+                };
+
+                if (locations.Count > 1) {
+                    myMap.Shapes.AddPolyline(locations.ToArray());
                 }
-                myMap.Shapes.AddPolyline(locations);
+
+                Reader.Close();
             }
         }
         
