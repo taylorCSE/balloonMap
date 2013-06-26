@@ -78,8 +78,12 @@ namespace MapWindow
 
             MySqlDataReader Reader = GPSCommand.ExecuteReader();
 
-            while (Reader.Read())
-            {
+            short symbol = 1000;
+
+            while (Reader.Read()) {
+                symbol++;
+                if (symbol > 23) { symbol = 17; }
+
                 string id = Reader.GetValue(0).ToString();
                 double lat = double.Parse(Reader.GetValue(2).ToString());
                 string latRef = Reader.GetValue(3).ToString();
@@ -96,10 +100,14 @@ namespace MapWindow
 
                 Location location = myMap.GetLocation(lat, lon, 245);
 
-                if (pins.ContainsKey(id)) {
-                    pins[id].Location = location;
-                } else {
-                    pins.Add(id, myMap.AddPushpin(location, id));
+                if (!String.IsNullOrEmpty(id)){
+                    if (pins.ContainsKey(id)) {
+                        pins[id].Location = location;
+                    } else {
+                        pins.Add(id, myMap.AddPushpin(location, id));
+                    }
+
+                    pins[id].Symbol = symbol;
                 }
             }
 
