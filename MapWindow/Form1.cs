@@ -56,7 +56,19 @@ namespace MapWindow
         }
 
         private void TimerEvent(Object myObject, EventArgs myEventArgs) {
+            UpdatePaths();
             UpdatePins();
+        }
+
+        private void UpdatePaths() {
+            Location[] locations = new Location[2];
+            locations[0] = myMap.GetLocation(40, -84, 245);
+            locations[1] = myMap.GetLocation(40, -86, 245);
+
+            foreach (MapPoint.Shape i in myMap.Shapes) {
+                i.Delete();
+            }
+            myMap.Shapes.AddPolyline(locations);
         }
         
         private void UpdatePins() {
