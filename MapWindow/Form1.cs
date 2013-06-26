@@ -61,6 +61,20 @@ namespace MapWindow
         }
 
         private void UpdatePaths() {
+            List<string> devices = new List<string>();
+
+            MySqlCommand GPSCommand = Connection.CreateCommand();
+
+            GPSCommand.CommandText = "SELECT DeviceId from gps where FlightId = flightId group by DeviceId";
+
+            MySqlDataReader Reader = GPSCommand.ExecuteReader();
+
+            while (Reader.Read()) {
+                devices.Add(Reader.GetValue(0).ToString());
+            }
+
+            Reader.Close();
+
             Location[] locations = new Location[2];
             locations[0] = myMap.GetLocation(40, -84, 245);
             locations[1] = myMap.GetLocation(40, -86, 245);
