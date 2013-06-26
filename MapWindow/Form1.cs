@@ -63,7 +63,7 @@ namespace MapWindow
             MySqlCommand GPSCommand = Connection.CreateCommand();
 
             GPSCommand.CommandText = @"
-                SELECT DeviceId, Timestamp, Lat, LatRef, Lon, LonRef, Altitude, PacketId 
+                SELECT DeviceId, Timestamp, Lat, LatRef, Lon, LonRef, Altitude, Rate, PacketId 
                 FROM gps 
                 WHERE 
                     Lat < 90 and Lon < 180 and 
@@ -90,6 +90,7 @@ namespace MapWindow
                 double lon = double.Parse(Reader.GetValue(4).ToString());
                 string lonRef = Reader.GetValue(5).ToString();
                 string altitude = Reader.GetValue(6).ToString();
+                string rate = Reader.GetValue(7).ToString();
 
                 if (latRef == "S") {
                     lat *= -1;
@@ -109,7 +110,7 @@ namespace MapWindow
                     }
 
                     pins[id].Symbol = symbol;
-                    pins[id].Note = "Alt: " + altitude;
+                    pins[id].Note = "Alt: " + altitude + "\nRate: " + rate;
                     pins[id].BalloonState = GeoBalloonState.geoDisplayBalloon;
                 }
             }
