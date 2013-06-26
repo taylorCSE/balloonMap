@@ -62,7 +62,6 @@ namespace MapWindow
         private void UpdatePins() {
             MySqlCommand GPSCommand = Connection.CreateCommand();
 
-            GPSCommand.CommandText = "SELECT DeviceId, max(Timestamp), Lat, LatRef, Lon, LonRef FROM `gps` where Lat < 90 and Lon < 180 and FlightId = '" + flightId + "' group by DeviceId";
             GPSCommand.CommandText = @"
                 SELECT DeviceId, Timestamp, Lat, LatRef, Lon, LonRef, PacketId 
                 FROM gps 
