@@ -43,6 +43,21 @@ namespace MapWindow
             myTimer.Start();
         }
 
+        private Location GetLocation(string lat, string latRef, string lon, string lonRef) {
+            double lat_f = double.Parse(lat);
+            double lon_f = double.Parse(lon);
+
+            if (latRef == "S") {
+                lat_f *= -1;
+            }
+
+            if (lonRef == "W") {
+                lon_f *= -1;
+            }
+
+            return myMap.GetLocation(lat_f, lon_f, 0);
+        }
+
         private void FillFlightSelector() {
             MySqlCommand GPSCommand = Connection.CreateCommand();
 
@@ -141,22 +156,14 @@ namespace MapWindow
                 if (symbol > 23) { symbol = 17; }
 
                 string id = Reader.GetValue(0).ToString();
-                double lat = double.Parse(Reader.GetValue(2).ToString());
+                string lat = Reader.GetValue(2).ToString();
                 string latRef = Reader.GetValue(3).ToString();
-                double lon = double.Parse(Reader.GetValue(4).ToString());
+                string lon = Reader.GetValue(4).ToString();
                 string lonRef = Reader.GetValue(5).ToString();
                 string altitude = Reader.GetValue(6).ToString();
                 string rate = Reader.GetValue(7).ToString();
 
-                if (latRef == "S") {
-                    lat *= -1;
-                }
-
-                if (lonRef == "W") {
-                    lon *= -1;
-                }
-
-                Location location = myMap.GetLocation(lat, lon, 245);
+                Location location = GetLocation(lat, latRef, lon, lonRef);
 
                 if (!String.IsNullOrEmpty(id)){
                     if (pins.ContainsKey(id)) {
