@@ -14,6 +14,7 @@ namespace MapWindow
         Dictionary<string, Pushpin> pins = new Dictionary<string, Pushpin>();
         MySqlConnection Connection = new MySqlConnection();
         string flightId;
+        List<string> devices;
 
         public Form1() {
             InitializeComponent();
@@ -60,8 +61,8 @@ namespace MapWindow
             UpdatePins();
         }
 
-        private void UpdatePaths() {
-            List<string> devices = new List<string>();
+        private void UpdateDevices() {
+            devices = new List<string>();
 
             MySqlCommand GPSCommand = Connection.CreateCommand();
 
@@ -74,6 +75,10 @@ namespace MapWindow
             }
 
             Reader.Close();
+        }
+
+        private void UpdatePaths() {
+            UpdateDevices();
 
             foreach (string deviceId in devices) {
                 Location[] locations = new Location[2];
