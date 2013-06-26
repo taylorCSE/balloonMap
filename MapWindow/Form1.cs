@@ -75,14 +75,17 @@ namespace MapWindow
 
             Reader.Close();
 
-            Location[] locations = new Location[2];
-            locations[0] = myMap.GetLocation(40, -84, 245);
-            locations[1] = myMap.GetLocation(40, -86, 245);
+            foreach (string deviceId in devices) {
+                Location[] locations = new Location[2];
+                locations[0] = myMap.GetLocation(40, -84, 245);
+                locations[1] = myMap.GetLocation(40, -86, 245);
 
-            foreach (MapPoint.Shape i in myMap.Shapes) {
-                i.Delete();
+                foreach (MapPoint.Shape i in myMap.Shapes)
+                {
+                    i.Delete();
+                }
+                myMap.Shapes.AddPolyline(locations);
             }
-            myMap.Shapes.AddPolyline(locations);
         }
         
         private void UpdatePins() {
