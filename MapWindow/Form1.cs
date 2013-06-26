@@ -108,6 +108,8 @@ namespace MapWindow
                     }
 
                     pins[id].Symbol = symbol;
+                    pins[id].Note = "This is a test";
+                    pins[id].BalloonState = GeoBalloonState.geoDisplayBalloon;
                 }
             }
 
