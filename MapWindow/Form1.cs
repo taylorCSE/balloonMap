@@ -63,6 +63,19 @@ namespace MapWindow
             MySqlCommand GPSCommand = Connection.CreateCommand();
 
             GPSCommand.CommandText = "SELECT DeviceId, max(Timestamp), Lat, LatRef, Lon, LonRef FROM `gps` where Lat < 90 and Lon < 180 and FlightId = '" + flightId + "' group by DeviceId";
+            GPSCommand.CommandText = @"
+                SELECT DeviceId, Timestamp, Lat, LatRef, Lon, LonRef, PacketId 
+                FROM gps 
+                WHERE 
+                    Lat < 90 and Lon < 180 and 
+                    FlightId = '" + flightId + @"' and
+                    (DeviceId, Timestamp) IN
+                    ( SELECT DeviceId, MAX(Timestamp) Timestamp
+                      FROM gps
+                      WHERE FlightId = '" + flightId + @"'
+                      GROUP BY DeviceId
+                    )";
+
 
             MySqlDataReader Reader = GPSCommand.ExecuteReader();
 
