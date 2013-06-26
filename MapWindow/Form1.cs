@@ -113,8 +113,7 @@ namespace MapWindow
                 List<Location> locations = new List<Location>();
 
                 while (Reader.Read()) {
-                    locations.Add(myMap.GetLocation(double.Parse(Reader.GetValue(0).ToString()),
-                                                 -double.Parse(Reader.GetValue(2).ToString()), 0));
+                    locations.Add(GetLocation(Reader.GetValue(0).ToString(), Reader.GetValue(1).ToString(), Reader.GetValue(2).ToString(), Reader.GetValue(3).ToString()));
                 };
 
                 if (paths.ContainsKey(deviceId)) {
