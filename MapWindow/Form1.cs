@@ -104,7 +104,12 @@ namespace MapWindow
                                          WHERE
                                              Lat < 90 and Lon < 180 and 
                                              (
-                                                UNIX_TIMESTAMP(Timestamp) % 300 = 0 or
+                                                UNIX_TIMESTAMP(Timestamp) % (
+                                                    (SELECT round((max(PacketId) - min(PacketId)) / 10) from gps where
+                                                         DeviceId = '" + deviceId + @"' and 
+                                                         FlightId = '" + flightId + @"'
+                                                    )                                                
+                                                ) = 0 or
                                                 PacketId = (
                                                     SELECT max(PacketId) from gps where
                                                          DeviceId = '" + deviceId + @"' and 
@@ -112,8 +117,7 @@ namespace MapWindow
                                                     )
                                              DeviceId = '" + deviceId + @"' and 
                                              FlightId = '" + flightId + @"'
-                                         ORDER BY Timestamp DESC
-                                         LIMIT 10";
+                                         ORDER BY Timestamp DESC";
 
                 MySqlDataReader Reader = GPSCommand.ExecuteReader();
 
