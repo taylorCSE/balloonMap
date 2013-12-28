@@ -103,10 +103,11 @@ namespace MapWindow
                                          FROM gps
                                          WHERE
                                              Lat < 90 and Lon < 180 and 
-                                             PacketId % 50 = 0 and
+                                             UNIX_TIMESTAMP(Timestamp) % 300 = 0 and
                                              DeviceId = '" + deviceId + @"' and 
                                              FlightId = '" + flightId + @"'
-                                         ORDER BY Timestamp ASC";
+                                         ORDER BY Timestamp DESC
+                                         LIMIT 10";
 
                 MySqlDataReader Reader = GPSCommand.ExecuteReader();
 
