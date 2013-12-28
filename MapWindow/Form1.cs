@@ -102,7 +102,11 @@ namespace MapWindow
                 GPSCommand.CommandText = @"SELECT Lat, LatRef, Lon, LonRef, PacketId
                                          FROM gps
                                          WHERE
-                                             Lat < 90 and Lon < 180 and 
+                                             Lat < 90 and Lon < 180 and
+                                             (LatRef = 'N' or LatRef = 'S') and 
+                                             (LonRef = 'E' or LonRef = 'W') and 
+                                             Lat != 0 and
+                                             Lon != 0 and
                                              (
                                                 UNIX_TIMESTAMP(Timestamp) % (
                                                     (SELECT round((max(PacketId) - min(PacketId)) / 10) from gps where
