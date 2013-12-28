@@ -108,17 +108,19 @@ namespace MapWindow
                                              Lat != 0 and
                                              Lon != 0 and
                                              (
-                                                UNIX_TIMESTAMP(Timestamp) % (
-                                                    (SELECT round((max(PacketId) - min(PacketId)) / 10) from gps where
+                                                UNIX_TIMESTAMP(Timestamp) % 
+                                                (
+                                                    SELECT round((max(PacketId) - min(PacketId)) / 10) from gps where
                                                          DeviceId = '" + deviceId + @"' and 
                                                          FlightId = '" + flightId + @"'
-                                                    )                                                
                                                 ) = 0 or
-                                                PacketId = (
-                                                    SELECT max(PacketId) from gps where
+                                                PacketId =
+                                                    (
+                                                         SELECT max(PacketId) from gps where
                                                          DeviceId = '" + deviceId + @"' and 
                                                          FlightId = '" + flightId + @"'
                                                     )
+                                             ) and
                                              DeviceId = '" + deviceId + @"' and 
                                              FlightId = '" + flightId + @"'
                                          ORDER BY Timestamp DESC";
