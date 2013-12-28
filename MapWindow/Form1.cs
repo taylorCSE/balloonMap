@@ -103,7 +103,13 @@ namespace MapWindow
                                          FROM gps
                                          WHERE
                                              Lat < 90 and Lon < 180 and 
-                                             UNIX_TIMESTAMP(Timestamp) % 300 = 0 and
+                                             (
+                                                UNIX_TIMESTAMP(Timestamp) % 300 = 0 or
+                                                PacketId = (
+                                                    SELECT max(PacketId) from gps where
+                                                         DeviceId = '" + deviceId + @"' and 
+                                                         FlightId = '" + flightId + @"'
+                                                    )
                                              DeviceId = '" + deviceId + @"' and 
                                              FlightId = '" + flightId + @"'
                                          ORDER BY Timestamp DESC
