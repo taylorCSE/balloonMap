@@ -38,17 +38,23 @@
             // 
             // axMappointControl1
             // 
+            this.axMappointControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.axMappointControl1.Enabled = true;
-            this.axMappointControl1.Location = new System.Drawing.Point(0, 0);
+            this.axMappointControl1.Location = new System.Drawing.Point(-11, -18);
+            this.axMappointControl1.Margin = new System.Windows.Forms.Padding(0);
             this.axMappointControl1.Name = "axMappointControl1";
             this.axMappointControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMappointControl1.OcxState")));
-            this.axMappointControl1.Size = new System.Drawing.Size(992, 394);
+            this.axMappointControl1.Size = new System.Drawing.Size(1022, 424);
             this.axMappointControl1.TabIndex = 0;
             // 
             // FlightComboBox
             // 
+            this.FlightComboBox.Dock = System.Windows.Forms.DockStyle.Right;
             this.FlightComboBox.FormattingEnabled = true;
-            this.FlightComboBox.Location = new System.Drawing.Point(861, 12);
+            this.FlightComboBox.Location = new System.Drawing.Point(873, 0);
+            this.FlightComboBox.Margin = new System.Windows.Forms.Padding(12);
             this.FlightComboBox.Name = "FlightComboBox";
             this.FlightComboBox.Size = new System.Drawing.Size(121, 21);
             this.FlightComboBox.TabIndex = 1;
