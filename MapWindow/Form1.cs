@@ -132,7 +132,7 @@ namespace MapWindow
             MySqlCommand GPSCommand = Connection.CreateCommand();
 
             GPSCommand.CommandText = @"
-                SELECT DeviceId, Timestamp, Lat, LatRef, Lon, LonRef, Altitude, Rate, Spd, Hdg, Status, PacketId
+                SELECT Lat, LatRef, Lon, LonRef, DeviceId, Timestamp, Altitude, Rate, Spd, Hdg, Status, PacketId
                 FROM gps 
                 WHERE 
                     (FlightId, DeviceId, PacketId) IN
@@ -156,11 +156,11 @@ namespace MapWindow
                 symbol++;
                 if (symbol > 23) { symbol = 17; }
 
-                string id = Reader.GetValue(0).ToString();
-                string lat = Reader.GetValue(2).ToString();
-                string latRef = Reader.GetValue(3).ToString();
-                string lon = Reader.GetValue(4).ToString();
-                string lonRef = Reader.GetValue(5).ToString();
+                string lat = Reader.GetValue(0).ToString();
+                string latRef = Reader.GetValue(1).ToString();
+                string lon = Reader.GetValue(2).ToString();
+                string lonRef = Reader.GetValue(3).ToString();
+                string id = Reader.GetValue(4).ToString();
                 string altitude = Reader.GetValue(6).ToString();
                 string rate = Reader.GetValue(7).ToString();
                 string spd = Reader.GetValue(8).ToString();
