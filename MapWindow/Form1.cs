@@ -77,25 +77,7 @@ namespace MapWindow
             UpdatePaths();
         }
 
-        private void UpdateDevices() {
-            devices = new List<string>();
-
-            MySqlCommand GPSCommand = Connection.CreateCommand();
-
-            GPSCommand.CommandText = "SELECT DeviceId from gps where FlightId = flightId group by DeviceId";
-
-            MySqlDataReader Reader = GPSCommand.ExecuteReader();
-
-            while (Reader.Read()) {
-                devices.Add(Reader.GetValue(0).ToString());
-            }
-
-            Reader.Close();
-        }
-
         private void UpdatePaths() {
-            UpdateDevices();
-
             foreach (string deviceId in devices) {
                 MySqlCommand GPSCommand = Connection.CreateCommand();
 
@@ -105,7 +87,7 @@ namespace MapWindow
                                              Lat < 90 and Lon < 180 and
                                              Lat > 0 and Lon > 0 and
                                              (
-                                                UNIX_TIMESTAMP(Timestamp) % 60 = 0
+                                                UNIX_TIMESTAMP(Timestamp) % 300 = 0
                                              ) and
                                              DeviceId = '" + deviceId + @"' and 
                                              FlightId = '" + flightId + @"'
@@ -116,6 +98,7 @@ namespace MapWindow
 
                 List<Location> locations = new List<Location>();
 
+                locations.Add(pins[deviceId].Location);
                 while (Reader.Read()) {
                     locations.Add(GetLocation(Reader.GetValue(0).ToString(), Reader.GetValue(1).ToString(), Reader.GetValue(2).ToString(), Reader.GetValue(3).ToString()));
                 };
@@ -156,7 +139,10 @@ namespace MapWindow
 
             short symbol = 1000;
 
-            while (Reader.Read()) {
+            devices = new List<string>();
+
+            while (Reader.Read())
+            {
                 symbol++;
                 if (symbol > 23) { symbol = 17; }
 
@@ -174,6 +160,7 @@ namespace MapWindow
                 Location location = GetLocation(lat, latRef, lon, lonRef);
 
                 if (!String.IsNullOrEmpty(id)){
+                    devices.Add(id);
                     if (pins.ContainsKey(id)) {
                         pins[id].Location = location;
                     } else {
