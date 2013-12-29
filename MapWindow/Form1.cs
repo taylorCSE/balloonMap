@@ -73,8 +73,8 @@ namespace MapWindow
         }
 
         private void TimerEvent(Object myObject, EventArgs myEventArgs) {
-            UpdatePaths();
             UpdatePins();
+            UpdatePaths();
         }
 
         private void UpdateDevices() {
@@ -103,27 +103,14 @@ namespace MapWindow
                                          FROM gps
                                          WHERE
                                              Lat < 90 and Lon < 180 and
-                                             (LatRef = 'N' or LatRef = 'S') and 
-                                             (LonRef = 'E' or LonRef = 'W') and 
-                                             Lat != 0 and
-                                             Lon != 0 and
+                                             Lat > 0 and Lon > 0 and
                                              (
-                                                UNIX_TIMESTAMP(Timestamp) % 
-                                                (
-                                                    SELECT round((max(PacketId) - min(PacketId)) / 10) from gps where
-                                                         DeviceId = '" + deviceId + @"' and 
-                                                         FlightId = '" + flightId + @"'
-                                                ) = 0 or
-                                                PacketId =
-                                                    (
-                                                         SELECT max(PacketId) from gps where
-                                                         DeviceId = '" + deviceId + @"' and 
-                                                         FlightId = '" + flightId + @"'
-                                                    )
+                                                UNIX_TIMESTAMP(Timestamp) % 60 = 0
                                              ) and
                                              DeviceId = '" + deviceId + @"' and 
                                              FlightId = '" + flightId + @"'
-                                         ORDER BY Timestamp DESC";
+                                         ORDER BY Timestamp DESC
+                                         LIMIT 12";
 
                 MySqlDataReader Reader = GPSCommand.ExecuteReader();
 
@@ -134,8 +121,9 @@ namespace MapWindow
                 };
 
                 if (paths.ContainsKey(deviceId)) {
-                    paths[deviceId].Delete();
+                    MapPoint.Shape path = paths[deviceId];
                     paths.Remove(deviceId);
+                    path.Delete();
                 }
 
                 if (locations.Count > 1) {
@@ -154,9 +142,10 @@ namespace MapWindow
                 FROM gps 
                 WHERE 
                     Lat < 90 and Lon < 180 and 
+                    Lat > 0 and Lon > 0 and
                     FlightId = '" + flightId + @"' and
-                    (DeviceId, Timestamp) IN
-                    ( SELECT DeviceId, MAX(Timestamp) Timestamp
+                    (DeviceId, PacketId) IN
+                    ( SELECT DeviceId, MAX(PacketId) PacketId
                       FROM gps
                       WHERE FlightId = '" + flightId + @"'
                       GROUP BY DeviceId
