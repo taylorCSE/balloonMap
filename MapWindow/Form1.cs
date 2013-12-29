@@ -85,11 +85,11 @@ namespace MapWindow
                                          WHERE
                                              Lat < 90 and Lon < 180 and
                                              Lat > 0 and Lon > 0 and
-                                             UNIX_TIMESTAMP(Timestamp) % 300 = 0 and
+                                             UNIX_TIMESTAMP(Timestamp) % 60 = 0 and
                                              DeviceId = '" + deviceId + @"' and 
                                              FlightId = '" + flightId + @"'
                                          ORDER BY Timestamp DESC
-                                         LIMIT 4)
+                                         LIMIT 300)
                                          UNION ALL
                                          (SELECT Lat, LatRef, Lon, LonRef, PacketId
                                          FROM gps
