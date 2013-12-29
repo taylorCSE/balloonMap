@@ -81,24 +81,29 @@ namespace MapWindow
             foreach (string deviceId in devices) {
                 MySqlCommand GPSCommand = Connection.CreateCommand();
 
-                GPSCommand.CommandText = @"SELECT Lat, LatRef, Lon, LonRef, PacketId
+                GPSCommand.CommandText = @"(SELECT Lat, LatRef, Lon, LonRef, PacketId
                                          FROM gps
                                          WHERE
                                              Lat < 90 and Lon < 180 and
                                              Lat > 0 and Lon > 0 and
-                                             (
-                                                UNIX_TIMESTAMP(Timestamp) % 300 = 0 or
-                                                Timestamp = 
-                                                (
-                                                    SELECT min(Timestamp) from gps WHERE
-                                                         DeviceId = '" + deviceId + @"' and 
-                                                         FlightId = '" + flightId + @"'
-                                                )
-                                             ) and
+                                             UNIX_TIMESTAMP(Timestamp) % 300 = 0 and
                                              DeviceId = '" + deviceId + @"' and 
                                              FlightId = '" + flightId + @"'
                                          ORDER BY Timestamp DESC
-                                         LIMIT 4";
+                                         LIMIT 4)
+                                         UNION ALL
+                                         (SELECT Lat, LatRef, Lon, LonRef, PacketId
+                                         FROM gps
+                                         WHERE
+                                             DeviceId = '" + deviceId + @"' and 
+                                             FlightId = '" + flightId + @"' and
+                                             Timestamp = 
+                                             (
+                                                SELECT min(Timestamp) from gps WHERE
+                                                DeviceId = '" + deviceId + @"' and 
+                                                FlightId = '" + flightId + @"'
+                                              )
+                                         )";
 
                 MySqlDataReader Reader = GPSCommand.ExecuteReader();
 
