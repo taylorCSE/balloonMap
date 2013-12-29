@@ -39,7 +39,7 @@ namespace MapWindow
             FillFlightSelector();
 
             myTimer.Tick += new EventHandler(TimerEvent);
-            myTimer.Interval = 5000;
+            myTimer.Interval = 10000;
             myTimer.Start();
         }
 
@@ -87,12 +87,18 @@ namespace MapWindow
                                              Lat < 90 and Lon < 180 and
                                              Lat > 0 and Lon > 0 and
                                              (
-                                                UNIX_TIMESTAMP(Timestamp) % 300 = 0
+                                                UNIX_TIMESTAMP(Timestamp) % 300 = 0 or
+                                                Timestamp = 
+                                                (
+                                                    SELECT min(Timestamp) from gps WHERE
+                                                         DeviceId = '" + deviceId + @"' and 
+                                                         FlightId = '" + flightId + @"'
+                                                )
                                              ) and
                                              DeviceId = '" + deviceId + @"' and 
                                              FlightId = '" + flightId + @"'
                                          ORDER BY Timestamp DESC
-                                         LIMIT 12";
+                                         LIMIT 4";
 
                 MySqlDataReader Reader = GPSCommand.ExecuteReader();
 
@@ -124,16 +130,15 @@ namespace MapWindow
                 SELECT DeviceId, Timestamp, Lat, LatRef, Lon, LonRef, Altitude, Rate, Spd, Hdg, Status, PacketId
                 FROM gps 
                 WHERE 
-                    Lat < 90 and Lon < 180 and 
-                    Lat > 0 and Lon > 0 and
-                    FlightId = '" + flightId + @"' and
-                    (DeviceId, PacketId) IN
-                    ( SELECT DeviceId, MAX(PacketId) PacketId
-                      FROM gps
-                      WHERE FlightId = '" + flightId + @"'
-                      GROUP BY DeviceId
+                    (FlightId, DeviceId, PacketId) IN
+                    (
+                        SELECT * FROM
+                        ( SELECT FlightId, DeviceId, MAX(PacketId) PacketId
+                            FROM gps
+                            WHERE FlightId = '" + flightId + @"'
+                            GROUP BY DeviceId
+                        ) AS SUBQUERY
                     )";
-
 
             MySqlDataReader Reader = GPSCommand.ExecuteReader();
 
