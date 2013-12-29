@@ -74,7 +74,6 @@ namespace MapWindow
 
         private void TimerEvent(Object myObject, EventArgs myEventArgs) {
             UpdatePins();
-            UpdatePaths();
         }
 
         private void UpdatePaths() {
@@ -188,6 +187,10 @@ namespace MapWindow
             }
 
             Reader.Close();
+
+            axMappointControl1.ActiveMap.Saved = true;
+
+            UpdatePaths();
 
             axMappointControl1.ActiveMap.Saved = true;
         }
