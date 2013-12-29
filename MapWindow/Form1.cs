@@ -77,6 +77,11 @@ namespace MapWindow
         }
 
         private void UpdatePaths() {
+            if (!EnablePathsCheckbox.Checked) {
+                ClearPaths();
+                return;
+            }
+
             foreach (string deviceId in devices) {
                 MySqlCommand GPSCommand = Connection.CreateCommand();
 
@@ -195,12 +200,15 @@ namespace MapWindow
             axMappointControl1.ActiveMap.Saved = true;
         }
 
-        private void FlightComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-            foreach (MapPoint.Shape i in myMap.Shapes) {
+        private void ClearPaths() {
+            foreach (MapPoint.Shape i in myMap.Shapes)
+            {
                 i.Delete();
             }
             paths.Clear();
+        }
 
+        private void FlightComboBox_SelectedIndexChanged(object sender, EventArgs e) {
             flightId = FlightComboBox.SelectedItem.ToString();
 
             foreach (var pin in pins) {
@@ -209,6 +217,11 @@ namespace MapWindow
 
             pins.Clear();
 
+            UpdatePins();
+        }
+
+        private void EnablePathsCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
             UpdatePins();
         }
     }

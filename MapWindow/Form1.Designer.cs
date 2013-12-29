@@ -56,7 +56,7 @@
             // FlightComboBox
             // 
             this.FlightComboBox.FormattingEnabled = true;
-            this.FlightComboBox.Location = new System.Drawing.Point(42, 12);
+            this.FlightComboBox.Location = new System.Drawing.Point(47, 12);
             this.FlightComboBox.Margin = new System.Windows.Forms.Padding(12);
             this.FlightComboBox.Name = "FlightComboBox";
             this.FlightComboBox.Size = new System.Drawing.Size(127, 21);
@@ -67,7 +67,7 @@
             // 
             this.FlightLabel.AutoSize = true;
             this.FlightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FlightLabel.Location = new System.Drawing.Point(13, 15);
+            this.FlightLabel.Location = new System.Drawing.Point(8, 15);
             this.FlightLabel.Name = "FlightLabel";
             this.FlightLabel.Size = new System.Drawing.Size(32, 13);
             this.FlightLabel.TabIndex = 2;
@@ -76,12 +76,13 @@
             // EnablePathsCheckbox
             // 
             this.EnablePathsCheckbox.AutoSize = true;
-            this.EnablePathsCheckbox.Location = new System.Drawing.Point(16, 45);
+            this.EnablePathsCheckbox.Location = new System.Drawing.Point(11, 48);
             this.EnablePathsCheckbox.Name = "EnablePathsCheckbox";
             this.EnablePathsCheckbox.Size = new System.Drawing.Size(89, 17);
             this.EnablePathsCheckbox.TabIndex = 3;
             this.EnablePathsCheckbox.Text = "Enable Paths";
             this.EnablePathsCheckbox.UseVisualStyleBackColor = true;
+            this.EnablePathsCheckbox.CheckedChanged += new System.EventHandler(this.EnablePathsCheckbox_CheckedChanged);
             // 
             // panel1
             // 
@@ -93,7 +94,7 @@
             this.panel1.Controls.Add(this.FlightLabel);
             this.panel1.Location = new System.Drawing.Point(2, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(188, 75);
+            this.panel1.Size = new System.Drawing.Size(188, 76);
             this.panel1.TabIndex = 4;
             // 
             // Form1
